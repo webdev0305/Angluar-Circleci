@@ -1,0 +1,45 @@
+<div class="container">
+  <h4>Orders for {{ customer.firstName | capitalize }} {{ customer.lastName | capitalize }}</h4>
+  <div class="navbar itembar">
+      <ul class="nav navbar-nav">
+          <li class="toolbar-item">
+            <!-- Add code here -->
+          </li>
+      </ul>
+  </div> 
+  <form (ngSubmit)="submit()" #orderForm="ngForm" class="order-form" novalidate>
+    <div class="row form-group" *ngFor="let order of customer.orders; index as i;">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Item</label>
+          <!-- Add code here -->
+        </div>        
+      </div>
+      <div class="col-md-4">
+        <label>Price</label>
+          <!-- Add code here -->
+        </div>
+      <div class="col-md-4">
+        <div class="alert alert-warning" *ngIf="deleteItemMessageEnabled[i]">
+          Delete Item?&nbsp;&nbsp;<button class="btn btn-danger" (click)="deleteItem(i)">Yes</button>&nbsp;&nbsp;
+          <button class="btn btn-default" (click)="deleteItemMessageEnabled[i] = false">No</button>
+        </div>
+        <button class="btn btn-danger btn-del-item" *ngIf="!deleteItemMessageEnabled[i]" (click)="deleteItemMessageEnabled[i] = true">Delete Item</button>
+      </div>
+    </div>
+    <div class="col-md-12 action-bar">
+      <div class="alert alert-warning" *ngIf="hasOrdersCount() && deleteMessageEnabled">
+         Delete Order?&nbsp;&nbsp;<button class="btn btn-danger" (click)="delete()">Yes</button>&nbsp;&nbsp;
+         <button class="btn btn-default" (click)="deleteMessageEnabled = false">No</button>
+      </div>
+      <button class="btn btn-danger" *ngIf="hasOrdersCount() && !deleteMessageEnabled" (click)="deleteMessageEnabled = true">Delete</button>&nbsp;&nbsp;
+
+      <div class="pull-right" *ngIf="!deleteMessageEnabled">
+        <button class="btn btn-default" (click)="cancel($event)">Cancel</button>&nbsp;&nbsp;
+        <button type="submit" class="btn btn-success" [disabled]="orderForm.pristine || !orderForm.valid">{{ operationText }}</button>
+      </div>
+    </div>
+    <div class="alert alert-danger alert-error" *ngIf="errorMessage != null">{{ errorMessage }}</div>
+  </form>
+  <br />
+</div>
